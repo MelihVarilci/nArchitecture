@@ -8,6 +8,7 @@ public static class IQueryablePaginateExtensions
                                                               int from = 0,
                                                               CancellationToken cancellationToken = default)
     {
+        if (size <= 0) throw new ArgumentException($"The Size: {size}, must be positive");
         if (from > index) throw new ArgumentException($"From: {from} > Index: {index}, must from <= Index");
 
         int count = await source.CountAsync(cancellationToken).ConfigureAwait(false);
@@ -29,6 +30,7 @@ public static class IQueryablePaginateExtensions
     public static IPaginate<T> ToPaginate<T>(this IQueryable<T> source, int index, int size,
                                              int from = 0)
     {
+        if (size <= 0) throw new ArgumentException($"The Size: {size}, must be positive");
         if (from > index) throw new ArgumentException($"From: {from} > Index: {index}, must from <= Index");
 
         int count = source.Count();

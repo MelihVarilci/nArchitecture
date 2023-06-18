@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Core.CrossCuttingConcerns": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:58924;http://localhost:58927"
+    }
+  }
+}
