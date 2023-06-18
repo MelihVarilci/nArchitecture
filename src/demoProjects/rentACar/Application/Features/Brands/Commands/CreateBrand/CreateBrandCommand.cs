@@ -2,12 +2,12 @@
 using Application.Features.Brands.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
-using Domain.Entites;
+using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.Brands.Commands.CreateBrand
 {
-    public class CreateBrandCommand : IRequest<CreatedBrandDto>
+    public partial class CreateBrandCommand : IRequest<CreatedBrandDto>
     {
         public string Name { get; set; }
 
@@ -17,10 +17,9 @@ namespace Application.Features.Brands.Commands.CreateBrand
             private readonly IMapper _mapper;
             private readonly BrandBusinessRules _brandBusinessRules;
 
-            public CreateBrandCommandHandler(IBrandRepository someFeatureEntityRepository, IMapper mapper,
-                                             BrandBusinessRules brandBusinessRules)
+            public CreateBrandCommandHandler(IBrandRepository brandRepository, IMapper mapper, BrandBusinessRules brandBusinessRules)
             {
-                _brandRepository = someFeatureEntityRepository;
+                _brandRepository = brandRepository;
                 _mapper = mapper;
                 _brandBusinessRules = brandBusinessRules;
             }
@@ -29,11 +28,11 @@ namespace Application.Features.Brands.Commands.CreateBrand
             {
                 await _brandBusinessRules.BrandNameCanNotBeDuplicatedWhenInserted(request.Name);
 
-                Brand mappedSomeFeatureEntity = _mapper.Map<Brand>(request);
-                Brand createdSomeFeatureEntity = await _brandRepository.AddAsync(mappedSomeFeatureEntity);
-                CreatedBrandDto CreatedBrandDto = _mapper.Map<CreatedBrandDto>(createdSomeFeatureEntity);
+                Brand mappedBrand = _mapper.Map<Brand>(request);
+                Brand createdBrand = await _brandRepository.AddAsync(mappedBrand);
+                CreatedBrandDto createdBrandDto = _mapper.Map<CreatedBrandDto>(createdBrand);
 
-                return CreatedBrandDto;
+                return createdBrandDto;
             }
         }
     }
