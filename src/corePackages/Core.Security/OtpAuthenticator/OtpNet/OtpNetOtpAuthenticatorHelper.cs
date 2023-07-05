@@ -20,7 +20,7 @@ public class OtpNetOtpAuthenticatorHelper : IOtpAuthenticatorHelper
         return Task.FromResult(base32String);
     }
 
-    public Task<bool> VerifyCode(byte[] secretKey, string code)
+    public Task<bool> VerifyCodeAsync(byte[] secretKey, string code)
     {
         Totp totp = new(secretKey);
 

@@ -2,6 +2,6 @@
 
 public interface IEmailAuthenticatorHelper
 {
-    public Task<string> CreateEmailActivationKey();
-    public Task<string> CreateEmailActivationCode();
+    public Task<string> CreateEmailActivationKeyAsync();
+    public Task<string> CreateEmailAuthenticatorCodeAsync();
 }

@@ -1,8 +1,8 @@
-﻿using System.Linq.Expressions;
-using Core.Persistence.Dynamic;
+﻿using Core.Persistence.Dynamic;
 using Core.Persistence.Paging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using System.Linq.Expressions;
 
 namespace Core.Persistence.Repositories;
 
@@ -65,6 +65,16 @@ public class EfRepositoryBase<TEntity, TContext> : IAsyncRepository<TEntity>, IR
         return entity;
     }
 
+    public async Task<List<TEntity>> AddRangeAsync(List<TEntity> entity)
+    {
+        foreach (TEntity entityItem in entity)
+        {
+            Context.Entry(entityItem).State = EntityState.Added;
+        }
+        await Context.SaveChangesAsync();
+        return entity;
+    }
+
     public async Task<TEntity> UpdateAsync(TEntity entity)
     {
         Context.Entry(entity).State = EntityState.Modified;
@@ -72,9 +82,29 @@ public class EfRepositoryBase<TEntity, TContext> : IAsyncRepository<TEntity>, IR
         return entity;
     }
 
+    public async Task<List<TEntity>> UpdateRangeAsync(List<TEntity> entity)
+    {
+        foreach (TEntity entityItem in entity)
+        {
+            Context.Entry(entityItem).State = EntityState.Modified;
+        }
+        await Context.SaveChangesAsync();
+        return entity;
+    }
+
     public async Task<TEntity> DeleteAsync(TEntity entity)
     {
         Context.Entry(entity).State = EntityState.Deleted;
+        await Context.SaveChangesAsync();
+        return entity;
+    }
+
+    public async Task<List<TEntity>> DeleteRangeAsync(List<TEntity> entity)
+    {
+        foreach (TEntity entityItem in entity)
+        {
+            Context.Entry(entityItem).State = EntityState.Deleted;
+        }
         await Context.SaveChangesAsync();
         return entity;
     }
