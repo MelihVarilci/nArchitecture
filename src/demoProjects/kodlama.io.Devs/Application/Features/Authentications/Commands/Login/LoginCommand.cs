@@ -22,8 +22,7 @@ namespace Application.Features.Authentications.Commands.Login
 
             public LoginCommandHandler(IUserRepository userRepository,
                 IAuthenticationService authenticationService,
-                AuthenticationBusinessRules authenticationBusinessRules
-                )
+                AuthenticationBusinessRules authenticationBusinessRules)
             {
                 _userRepository = userRepository;
                 _authenticationService = authenticationService;

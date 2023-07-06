@@ -6,6 +6,7 @@ using Core.Security.Dtos;
 using Core.Security.Entities;
 using Core.Security.Hashing;
 using Core.Security.JWT;
+using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.Authentications.Commands.Register
@@ -18,17 +19,17 @@ namespace Application.Features.Authentications.Commands.Register
         public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisteredResponse>
         {
             private readonly IMapper _mapper;
-            private readonly IUserRepository _userRepository;
+            private readonly IUserProfileRepository _userProfileRepository;
             private readonly IAuthenticationService _authenticationService;
             private readonly AuthenticationBusinessRules _authenticationBusinessRules;
 
             public RegisterCommandHandler(IMapper mapper,
-                IUserRepository userRepository,
+                IUserProfileRepository userProfileRepository,
                 IAuthenticationService authenticationService,
                 AuthenticationBusinessRules authenticationBusinessRules)
             {
                 _mapper = mapper;
-                _userRepository = userRepository;
+                _userProfileRepository = userProfileRepository;
                 _authenticationService = authenticationService;
                 _authenticationBusinessRules = authenticationBusinessRules;
             }
@@ -42,12 +43,11 @@ namespace Application.Features.Authentications.Commands.Register
                 HashingHelper.CreatePasswordHash(request.UserForRegisterDto.Password, out passwordHash, out passwordSalt);
 
                 // Insert User
-                User newUser = _mapper.Map<User>(request.UserForRegisterDto);
+                UserProfile newUser = _mapper.Map<UserProfile>(request.UserForRegisterDto);
                 newUser.PasswordHash = passwordHash;
                 newUser.PasswordSalt = passwordSalt;
-                newUser.Status = true;
 
-                await _userRepository.AddAsync(newUser);
+                await _userProfileRepository.AddAsync(newUser);
 
                 // Generate AccessToken
                 AccessToken createdAccessToken = await _authenticationService.CreateAccessToken(newUser);

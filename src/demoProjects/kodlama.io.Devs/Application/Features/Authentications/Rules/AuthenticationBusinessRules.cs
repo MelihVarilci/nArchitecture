@@ -19,8 +19,8 @@ namespace Application.Features.Authentications.Rules
 
         public async Task UserEmailCannotBeDuplicatedWhenInserted(string email)
         {
-            User? user = await _userRepository.GetAsync(u => u.Email == email);
-            if (user != null) throw new BusinessException(AuthenticationBusinessMessages.UserEmailAlreadyExists);
+            User? user = await _userRepository.GetAsync(u => u.Email.Equals(email.ToLower()));
+            if (user is not null) throw new BusinessException(AuthenticationBusinessMessages.UserEmailAlreadyExists);
         }
 
         public Task UserShouldBeExists(User? user)
