@@ -32,7 +32,18 @@ builder.Services.AddAuthentication(opt =>
                ValidAudience = tokenOptions?.Audience,
                ValidateLifetime = true,
                ValidateIssuerSigningKey = true,
-               IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions?.SecurityKey!)
+               IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions?.SecurityKey!),
+               ClockSkew = TimeSpan.Zero
+
+               #region ClockSkew
+
+               //JWT token'larýnda genellikle iki süre bulunur: "iat" (Issue At) ve "exp" (Expiration Time).
+               //"iat" süresi, token'ýn ne zaman oluþturulduðunu belirtirken, "exp" süresi ise token'ýn ne zaman geçersizleþeceðini gösterir.
+
+               //ClockSkew parametresi bu süreler arasýndaki toleransý belirler.Örneðin, ClockSkew deðeri 5 dakika olarak ayarlanmýþsa,
+               //token'ýn geçerlilik süresiyle ilgili kontroller yapýlýrken, token'ýn süresi 5 dakika öncesine veya sonrasýna kadar kabul edilir.
+
+               #endregion ClockSkew
            };
        });
 
