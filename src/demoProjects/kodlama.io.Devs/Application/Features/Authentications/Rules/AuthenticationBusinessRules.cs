@@ -1,4 +1,4 @@
-﻿using Application.Features.Authentications.Constants;
+﻿using Application.Constants;
 using Application.Services.Repositories;
 using Core.Application.Rules;
 using Core.CrossCuttingConcerns.Exceptions;
@@ -20,13 +20,13 @@ namespace Application.Features.Authentications.Rules
         public async Task UserEmailCannotBeDuplicatedWhenInserted(string email)
         {
             User? user = await _userRepository.GetAsync(u => u.Email.Equals(email.ToLower()));
-            if (user is not null) throw new BusinessException(AuthenticationBusinessMessages.UserEmailAlreadyExists);
+            if (user is not null) throw new BusinessException(Messages.UserEmailAlreadyExists);
         }
 
         public Task UserShouldBeExists(User? user)
         {
             if (user == null)
-                throw new BusinessException(AuthenticationBusinessMessages.UserNotFound);
+                throw new BusinessException(Messages.UserNotFound);
             return Task.CompletedTask;
         }
 
@@ -34,14 +34,14 @@ namespace Application.Features.Authentications.Rules
         {
             bool isMatched = HashingHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt);
             if (isMatched == false)
-                throw new BusinessException(AuthenticationBusinessMessages.UserPasswordNotMatch);
+                throw new BusinessException(Messages.UserPasswordNotMatch);
             return Task.CompletedTask;
         }
 
         public Task RefreshTokenShouldBeExists(RefreshToken? refreshToken)
         {
             if (refreshToken == null)
-                throw new BusinessException(AuthenticationBusinessMessages.RefreshTokenNotFound);
+                throw new BusinessException(Messages.RefreshTokenNotFound);
             return Task.CompletedTask;
         }
 
@@ -49,28 +49,28 @@ namespace Application.Features.Authentications.Rules
         {
             if (refreshToken.Revoked != null ||
                 (refreshToken.Revoked == null && refreshToken.Expires < DateTime.UtcNow))
-                throw new BusinessException(AuthenticationBusinessMessages.RefreshTokenNotActive);
+                throw new BusinessException(Messages.RefreshTokenNotActive);
             return Task.CompletedTask;
         }
 
         public Task UserShouldNotBeHasAuthenticator(User user)
         {
             if (user.AuthenticatorType is not AuthenticatorType.None)
-                throw new BusinessException(AuthenticationBusinessMessages.UserAlreadyHasAuthenticator);
+                throw new BusinessException(Messages.UserAlreadyHasAuthenticator);
             return Task.CompletedTask;
         }
 
         public Task UserEmailAuthenticatorShouldBeExists(EmailAuthenticator? userEmailAuthenticator)
         {
             if (userEmailAuthenticator is null)
-                throw new BusinessException(AuthenticationBusinessMessages.UserEmailAuthenticatorNotFound);
+                throw new BusinessException(Messages.UserEmailAuthenticatorNotFound);
             return Task.CompletedTask;
         }
 
         public Task UserOtpAuthenticatorShouldBeExists(OtpAuthenticator userOtpAuthenticator)
         {
             if (userOtpAuthenticator is null)
-                throw new BusinessException(AuthenticationBusinessMessages.UserOtpAuthenticatorNotFound);
+                throw new BusinessException(Messages.UserOtpAuthenticatorNotFound);
             return Task.CompletedTask;
         }
     }

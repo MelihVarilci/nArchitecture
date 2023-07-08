@@ -22,11 +22,9 @@
 	<ItemGroup>
 		<Folder Include="Features\Authentications\Models\" />
 		<Folder Include="Features\Authentications\Queries\" />
-		<Folder Include="Features\ProgrammingLanguages\Constants\" />
 		<Folder Include="Features\SocialProfiles\Commands\CreateOrEditSocialProfile\" />
 		<Folder Include="Features\SocialProfiles\Commands\DeleteSocialProfile\" />
 		<Folder Include="Features\SocialProfiles\Queries\GetByIdSocialProfile\" />
-		<Folder Include="Features\Technologies\Constants\" />
 	</ItemGroup>
 
 </Project>

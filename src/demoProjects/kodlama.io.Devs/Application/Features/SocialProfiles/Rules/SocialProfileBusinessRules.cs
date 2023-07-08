@@ -1,4 +1,4 @@
-﻿using Application.Features.SocialProfiles.Constants;
+﻿using Application.Constants;
 using Application.Services.Repositories;
 using Core.Application.Rules;
 using Core.CrossCuttingConcerns.Exceptions;
@@ -18,7 +18,7 @@ namespace Application.Features.SocialProfiles.Rules
         public Task UserProfileShouldBeExists(UserProfile? userProfile)
         {
             if (userProfile is null)
-                throw new BusinessException(SocialProfileBusinessMessages.UserProfileNotFound);
+                throw new BusinessException(Messages.UserProfileNotFound);
             return Task.CompletedTask;
         }
 

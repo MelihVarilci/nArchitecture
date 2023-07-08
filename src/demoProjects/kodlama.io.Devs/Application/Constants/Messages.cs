@@ -1,6 +1,6 @@
-﻿namespace Application.Features.Authentications.Constants
+﻿namespace Application.Constants
 {
-    public class AuthenticationBusinessMessages
+    public static class Messages
     {
         public const string UserEmailAlreadyExists = "Bu e-posta adresi ile daha önce kayıt olunmuş.";
         public const string UserNotFound = "Kullanıcı bulunamadı.";
@@ -12,6 +12,8 @@
         public const string ClickOnBelowLinkToVerifyEmail = "E-posta adresinizi doğrulamak için lütfen aşağıdaki linke tıklayın:";
         public const string UserEmailAuthenticatorNotFound = "Kullanıcıya ait onaylanması gereken e-posta doğrulama isteği bulunamadı.";
         public const string UserOtpAuthenticatorNotFound = "Kullanıcıya ait onaylanması gereken OTP doğrulama isteği bulunamadı.";
+
+        public const string UserProfileNotFound = "Kullanıcı Profili bulunamadı.";
 
         public static string UserEmailAlreadyExitsByEmail(string email)
         {
