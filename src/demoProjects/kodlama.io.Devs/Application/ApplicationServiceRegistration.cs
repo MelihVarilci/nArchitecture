@@ -1,12 +1,14 @@
 ﻿using Application.Services.AuthenticationServices;
+using Core.Application.Pipelines.Authorization;
+using Core.Application.Pipelines.Caching;
+using Core.Application.Pipelines.Logging;
+using Core.Application.Pipelines.Transaction;
 using Core.Application.Pipelines.Validation;
 using Core.Application.Rules;
+using Core.CrossCuttingConcerns.Logging.Serilog;
+using Core.CrossCuttingConcerns.Logging.Serilog.Logger;
 using Core.Mailing;
 using Core.Mailing.MailKitImplementations;
-using Core.Security.EmailAuthenticator;
-using Core.Security.JWT;
-using Core.Security.OtpAuthenticator;
-using Core.Security.OtpAuthenticator.OtpNet;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,15 +27,19 @@ namespace Application
 
             // Other pipeline implementations
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionScopeBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CacheRemovingBehavior<,>));
 
             // BaseBusinessRules class'ından türetilmiş diğer tüm class'ları AddScpoed olarak inject ediliyor
             services.AddSubClassesOfType(Assembly.GetExecutingAssembly(), typeof(BaseBusinessRules));
 
-            services.AddScoped<ITokenHelper, JwtHelper>();
+            services.AddSingleton<LoggerServiceBase, FileLogger>();
+
             services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<IEmailAuthenticatorHelper, EmailAuthenticatorHelper>();
             services.AddScoped<IMailService, MailKitMailService>();
-            services.AddScoped<IOtpAuthenticatorHelper, OtpNetOtpAuthenticatorHelper>();
 
             return services;
         }
