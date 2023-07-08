@@ -1,7 +1,7 @@
 ﻿using Core.Security.Entities;
 using Core.Security.JWT;
 
-namespace Application.Features.Authentications.Commands.Register
+namespace Application.Features.Authentications.Dtos
 {
     public class RegisteredResponse
     {

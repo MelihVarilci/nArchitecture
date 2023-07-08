@@ -2,7 +2,7 @@
 using Core.Security.Enums;
 using Core.Security.JWT;
 
-namespace Application.Features.Authentications.Commands.Login
+namespace Application.Features.Authentications.Dtos
 {
     public class LoggedResponse
     {

@@ -1,5 +1,6 @@
 ﻿using Application.Features.Authentications.Commands.Login;
 using Application.Features.Authentications.Commands.Register;
+using Application.Features.Authentications.Dtos;
 using Core.Security.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
