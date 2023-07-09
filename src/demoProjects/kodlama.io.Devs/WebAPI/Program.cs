@@ -11,6 +11,7 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddApplicationServices();
 builder.Services.AddSecurityServices();
@@ -57,6 +58,8 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(opt =>
 {
+    opt.SwaggerDoc("v1", new OpenApiInfo { Title = "Kodlama.io.Devs", Version = "v1" });
+
     opt.AddSecurityDefinition(name: "Bearer", securityScheme: new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -89,8 +92,9 @@ WebApplication app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(opt => { opt.DisplayRequestDuration(); opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Kodlama.io.Devs"); });
 }
 
 if (app.Environment.IsProduction())

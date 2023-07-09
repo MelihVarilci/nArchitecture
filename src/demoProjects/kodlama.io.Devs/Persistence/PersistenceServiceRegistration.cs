@@ -27,7 +27,7 @@ namespace Persistence
 
             #endregion BaseRepository
 
-            services.AddScoped<IProgrammingLanguageRepository, ProgrammingLanguageRepository>();
+            services.AddTransient<IProgrammingLanguageRepository, ProgrammingLanguageRepository>();
             services.AddScoped<ITechnologyRepository, TechnologyRepository>();
             services.AddScoped<ISocialProfileRepository, SocialProfileRepository>();
             services.AddScoped<IUserProfileRepository, UserProfileRepository>();

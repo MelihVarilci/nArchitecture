@@ -2,14 +2,18 @@
 using Application.Features.ProgrammingLanguages.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Caching;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.ProgrammingLanguages.Queries.GetByIdProgrammingLanguage
 {
-    public class GetByIdProgrammingLanguageQuery : IRequest<ProgrammingLanguageGetByIdDto>
+    public class GetByIdProgrammingLanguageQuery : IRequest<ProgrammingLanguageGetByIdDto>, ICachableRequest
     {
         public int Id { get; set; }
+        public bool BypassCache { get; set; }
+        public string CacheKey => $"ProgrammingLanguage-{Id}";
+        public TimeSpan? SlidingExpiration { get; set; }
 
         public class GetByIdProgrammingLanguageQueryHandler : IRequestHandler<GetByIdProgrammingLanguageQuery, ProgrammingLanguageGetByIdDto>
         {

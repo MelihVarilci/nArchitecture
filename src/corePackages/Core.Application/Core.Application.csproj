@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pipelines\Caching\" />
     <Folder Include="Pipelines\Authorization\" />
   </ItemGroup>
 

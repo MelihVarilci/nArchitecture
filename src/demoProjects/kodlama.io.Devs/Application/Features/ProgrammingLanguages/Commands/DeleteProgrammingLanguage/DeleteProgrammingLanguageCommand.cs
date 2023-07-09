@@ -2,14 +2,17 @@
 using Application.Features.ProgrammingLanguages.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Caching;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.ProgrammingLanguages.Commands.DeleteProgrammingLanguage
 {
-    public class DeleteProgrammingLanguageCommand : IRequest<DeleteProgrammingLanguageDto>
+    public class DeleteProgrammingLanguageCommand : IRequest<DeleteProgrammingLanguageDto>, ICacheRemoverRequest
     {
         public int Id { get; set; }
+        public bool BypassCache { get; set; }
+        public List<string> CacheKeys => new() { $"ProgrammingLanguage-{Id}", "ProgrammingLanguageList" };
 
         public class DeleteProgrammingLanguageCommandHandler : IRequestHandler<DeleteProgrammingLanguageCommand, DeleteProgrammingLanguageDto>
         {

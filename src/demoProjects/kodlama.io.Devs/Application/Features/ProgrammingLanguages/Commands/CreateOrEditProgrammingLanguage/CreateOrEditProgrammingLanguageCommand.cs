@@ -2,15 +2,32 @@
 using Application.Features.ProgrammingLanguages.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Caching;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.ProgrammingLanguages.Commands.CreateOrEditProgrammingLanguage
 {
-    public class CreateOrEditProgrammingLanguageCommand : IRequest<CreateOrEditProgrammingLanguageDto>
+    public class CreateOrEditProgrammingLanguageCommand : IRequest<CreateOrEditProgrammingLanguageDto>, ICacheRemoverRequest
     {
         public int? Id { get; set; }
         public string Name { get; set; }
+        public bool BypassCache { get; set; }
+
+        public List<string> CacheKeys
+        {
+            get
+            {
+                var cacheKeys = new List<string>();
+
+                if (Id is not null && Id != 0)
+                    cacheKeys.Add($"ProgrammingLanguage-{Id}");
+
+                cacheKeys.Add("ProgrammingLanguageList");
+
+                return cacheKeys;
+            }
+        }
 
         public class CreateOrEditProgrammingLanguageCommandHandler : IRequestHandler<CreateOrEditProgrammingLanguageCommand, CreateOrEditProgrammingLanguageDto>
         {

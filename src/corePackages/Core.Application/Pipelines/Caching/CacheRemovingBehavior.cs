@@ -7,13 +7,13 @@ namespace Core.Application.Pipelines.Caching;
 public class CacheRemovingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>, ICacheRemoverRequest
 {
-    private readonly IDistributedCache _cache;
+    private readonly IDistributedCache _distributedCache;
     private readonly ILogger<CacheRemovingBehavior<TRequest, TResponse>> _logger;
 
-    public CacheRemovingBehavior(IDistributedCache cache, ILogger<CacheRemovingBehavior<TRequest, TResponse>> logger
+    public CacheRemovingBehavior(IDistributedCache distributedCache, ILogger<CacheRemovingBehavior<TRequest, TResponse>> logger
     )
     {
-        _cache = cache;
+        _distributedCache = distributedCache;
         _logger = logger;
     }
 
@@ -26,12 +26,19 @@ public class CacheRemovingBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
         async Task<TResponse> GetResponseAndRemoveCache()
         {
             response = await next();
-            await _cache.RemoveAsync(request.CacheKey, cancellationToken);
+            foreach (var cacheKey in request.CacheKeys)
+            {
+                bool isCacheKeyExists = await DistributedCacheExtensions.IsCacheKeyExists(_distributedCache, cacheKey, cancellationToken);
+                if (isCacheKeyExists)
+                {
+                    await _distributedCache.RemoveAsync(cacheKey, cancellationToken);
+                    _logger.LogInformation($"Removed Cache -> {cacheKey}");
+                }
+            }
             return response;
         }
 
         response = await GetResponseAndRemoveCache();
-        _logger.LogInformation($"Removed Cache -> {request.CacheKey}");
 
         return response;
     }
