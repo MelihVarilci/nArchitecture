@@ -1,4 +1,7 @@
-﻿using Application.Features.ProgrammingLanguages.Commands.CreateOrEditProgrammingLanguage;
+﻿using Application.Features.OperationClaims.Commands.CreateOrEditOperationClaim;
+using Application.Features.OperationClaims.Dtos;
+using Application.Features.OperationClaims.Models;
+using Application.Features.ProgrammingLanguages.Commands.CreateOrEditProgrammingLanguage;
 using Application.Features.ProgrammingLanguages.Dtos;
 using Application.Features.ProgrammingLanguages.Models;
 using Application.Features.SocialProfiles.Commands.CreateOrEditSocialProfile;
@@ -7,6 +10,9 @@ using Application.Features.SocialProfiles.Models;
 using Application.Features.Technologies.Commands.CreateOrEditTechnology;
 using Application.Features.Technologies.Dtos;
 using Application.Features.Technologies.Models;
+using Application.Features.UserOperationClaims.Commands.CreateOrEditUserOperationClaim;
+using Application.Features.UserOperationClaims.Dtos;
+using Application.Features.UserOperationClaims.Models;
 using AutoMapper;
 using Core.Persistence.Paging;
 using Core.Security.Dtos;
@@ -25,6 +31,30 @@ namespace Application.Mappings
             CreateMap<UserProfile, UserForRegisterDto>().ReverseMap();
 
             #endregion User
+
+            #region UserOperationClaim
+
+            CreateMap<UserOperationClaim, CreateOrEditUserOperationClaimDto>().ReverseMap();
+            CreateMap<UserOperationClaim, CreateOrEditUserOperationClaimCommand>().ReverseMap();
+            CreateMap<IPaginate<UserOperationClaim>, UserOperationClaimListModel>().ReverseMap();
+            CreateMap<UserOperationClaim, UserOperationClaimListDto>().ReverseMap();
+            CreateMap<UserOperationClaim, UserOperationClaimGetByIdDto>().ReverseMap();
+
+            CreateMap<UserOperationClaim, DeleteUserOperationClaimDto>().ReverseMap();
+
+            #endregion UserOperationClaim
+
+            #region OperationClaim
+
+            CreateMap<OperationClaim, CreateOrEditOperationClaimDto>().ReverseMap();
+            CreateMap<OperationClaim, CreateOrEditOperationClaimCommand>().ReverseMap();
+            CreateMap<IPaginate<OperationClaim>, OperationClaimListModel>().ReverseMap();
+            CreateMap<OperationClaim, OperationClaimListDto>().ReverseMap();
+            CreateMap<OperationClaim, OperationClaimGetByIdDto>().ReverseMap();
+
+            CreateMap<OperationClaim, DeleteOperationClaimDto>().ReverseMap();
+
+            #endregion OperationClaim
 
             #region ProgrammingLanguage
 

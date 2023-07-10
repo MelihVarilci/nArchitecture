@@ -20,6 +20,8 @@ namespace Persistence.EntityConfigurations
             builder.Property(builder => builder.Status).HasColumnName("Status").HasDefaultValue(true);
             builder.Property(builder => builder.AuthenticatorType).HasColumnName("AuthenticatorType");
 
+            builder.HasIndex(p => p.Email).IsUnique();
+
             builder.HasMany(builder => builder.UserOperationClaims);
             builder.HasMany(builder => builder.RefreshTokens);
         }
