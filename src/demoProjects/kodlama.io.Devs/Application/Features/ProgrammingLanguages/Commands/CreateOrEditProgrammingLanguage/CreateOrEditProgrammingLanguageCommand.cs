@@ -1,14 +1,16 @@
-﻿using Application.Features.ProgrammingLanguages.Dtos;
+﻿using Application.Constants;
+using Application.Features.ProgrammingLanguages.Dtos;
 using Application.Features.ProgrammingLanguages.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Caching;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.ProgrammingLanguages.Commands.CreateOrEditProgrammingLanguage
 {
-    public class CreateOrEditProgrammingLanguageCommand : IRequest<CreateOrEditProgrammingLanguageDto>, ICacheRemoverRequest
+    public class CreateOrEditProgrammingLanguageCommand : IRequest<CreateOrEditProgrammingLanguageDto>, ICacheRemoverRequest, ISecuredRequest
     {
         public int? Id { get; set; }
         public string Name { get; set; }
@@ -28,6 +30,8 @@ namespace Application.Features.ProgrammingLanguages.Commands.CreateOrEditProgram
                 return cacheKeys;
             }
         }
+
+        public string[] Roles => new[] { Permissions.Pages_ProgrammingLanguage, Permissions.Pages_ProgrammingLanguage_CreateOrEdit };
 
         public class CreateOrEditProgrammingLanguageCommandHandler : IRequestHandler<CreateOrEditProgrammingLanguageCommand, CreateOrEditProgrammingLanguageDto>
         {

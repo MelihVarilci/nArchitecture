@@ -13,8 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDistributedMemoryCache();
 
-builder.Services.AddApplicationServices();
 builder.Services.AddSecurityServices();
+builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
 
 TokenOptions? tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
@@ -46,6 +46,30 @@ builder.Services.AddAuthentication(opt =>
                //token'ýn geçerlilik süresiyle ilgili kontroller yapýlýrken, token'ýn süresi 5 dakika öncesine veya sonrasýna kadar kabul edilir.
 
                #endregion ClockSkew
+           };
+
+           opt.Events = new JwtBearerEvents
+           {
+               OnChallenge = context =>
+               {
+                   Console.WriteLine("OnChallange: ");
+                   return Task.CompletedTask;
+               },
+               OnAuthenticationFailed = context =>
+               {
+                   Console.WriteLine("OnAuthenticationFailed:");
+                   return Task.CompletedTask;
+               },
+               OnMessageReceived = context =>
+               {
+                   Console.WriteLine("OnMessageReceived:");
+                   return Task.CompletedTask;
+               },
+               OnTokenValidated = context =>
+               {
+                   Console.WriteLine("OnTokenValidated:");
+                   return Task.CompletedTask;
+               },
            };
        });
 

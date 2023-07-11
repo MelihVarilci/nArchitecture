@@ -1,18 +1,22 @@
-﻿using Application.Features.ProgrammingLanguages.Dtos;
+﻿using Application.Constants;
+using Application.Features.ProgrammingLanguages.Dtos;
 using Application.Features.ProgrammingLanguages.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Caching;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.ProgrammingLanguages.Commands.DeleteProgrammingLanguage
 {
-    public class DeleteProgrammingLanguageCommand : IRequest<DeleteProgrammingLanguageDto>, ICacheRemoverRequest
+    public class DeleteProgrammingLanguageCommand : IRequest<DeleteProgrammingLanguageDto>, ICacheRemoverRequest, ISecuredRequest
     {
         public int Id { get; set; }
         public bool BypassCache { get; set; }
         public List<string> CacheKeys => new() { $"ProgrammingLanguage-{Id}", "ProgrammingLanguageList" };
+
+        public string[] Roles => new[] { Permissions.Pages_ProgrammingLanguage, Permissions.Pages_ProgrammingLanguage_Delete };
 
         public class DeleteProgrammingLanguageCommandHandler : IRequestHandler<DeleteProgrammingLanguageCommand, DeleteProgrammingLanguageDto>
         {
@@ -29,7 +33,7 @@ namespace Application.Features.ProgrammingLanguages.Commands.DeleteProgrammingLa
 
             public async Task<DeleteProgrammingLanguageDto> Handle(DeleteProgrammingLanguageCommand request, CancellationToken cancellationToken)
             {
-                ProgrammingLanguage programmingLanguage = await _programmingLanguageRepository.GetAsync(x => x.Id == request.Id);
+                ProgrammingLanguage? programmingLanguage = await _programmingLanguageRepository.GetAsync(x => x.Id == request.Id);
                 _programmingLanguageBusinessRules.ProgrammingLanguageShouldExistWhenRequested(programmingLanguage);
 
                 await _programmingLanguageRepository.DeleteAsync(programmingLanguage);

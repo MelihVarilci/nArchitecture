@@ -1,19 +1,23 @@
-﻿using Application.Features.ProgrammingLanguages.Dtos;
+﻿using Application.Constants;
+using Application.Features.ProgrammingLanguages.Dtos;
 using Application.Features.ProgrammingLanguages.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Caching;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.ProgrammingLanguages.Queries.GetByIdProgrammingLanguage
 {
-    public class GetByIdProgrammingLanguageQuery : IRequest<ProgrammingLanguageGetByIdDto>, ICachableRequest
+    public class GetByIdProgrammingLanguageQuery : IRequest<ProgrammingLanguageGetByIdDto>, ICachableRequest, ISecuredRequest
     {
         public int Id { get; set; }
         public bool BypassCache { get; set; }
         public string CacheKey => $"ProgrammingLanguage-{Id}";
         public TimeSpan? SlidingExpiration { get; set; }
+
+        public string[] Roles => new[] { Permissions.Pages_ProgrammingLanguage };
 
         public class GetByIdProgrammingLanguageQueryHandler : IRequestHandler<GetByIdProgrammingLanguageQuery, ProgrammingLanguageGetByIdDto>
         {
@@ -30,7 +34,7 @@ namespace Application.Features.ProgrammingLanguages.Queries.GetByIdProgrammingLa
 
             public async Task<ProgrammingLanguageGetByIdDto> Handle(GetByIdProgrammingLanguageQuery request, CancellationToken cancellationToken)
             {
-                ProgrammingLanguage programmingLanguage = await _programmingLanguageRepository.GetAsync(x => x.Id == request.Id);
+                ProgrammingLanguage? programmingLanguage = await _programmingLanguageRepository.GetAsync(x => x.Id == request.Id);
 
                 //_programmingLanguageBusinessRules.ProgrammingLanguageShouldExistWhenRequested(programmingLanguage);
 
