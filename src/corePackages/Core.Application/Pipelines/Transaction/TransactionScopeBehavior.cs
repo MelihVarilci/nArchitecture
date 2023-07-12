@@ -4,7 +4,7 @@ using System.Transactions;
 namespace Core.Application.Pipelines.Transaction
 {
     public class TransactionScopeBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-            where TRequest : IRequest<TResponse>
+            where TRequest : IRequest<TResponse>, ITransactionableOperation
     {
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken,
                                       RequestHandlerDelegate<TResponse> next)

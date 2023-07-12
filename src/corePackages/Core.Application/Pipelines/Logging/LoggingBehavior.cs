@@ -12,7 +12,6 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
     private readonly LoggerServiceBase _loggerServiceBase;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-
     public LoggingBehavior(LoggerServiceBase loggerServiceBase, IHttpContextAccessor httpContextAccessor)
     {
         _loggerServiceBase = loggerServiceBase;
@@ -34,9 +33,9 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
             MethodName = next.Method.Name,
             Parameters = logParameters,
             User = _httpContextAccessor.HttpContext == null ||
-                   _httpContextAccessor.HttpContext.User.Identity.Name == null
+                   _httpContextAccessor.HttpContext.User.Identity!.Name == null
                        ? "?"
-                       : _httpContextAccessor.HttpContext.User.Identity.Name
+                       : _httpContextAccessor.HttpContext.User.Identity.Name!
         };
 
         _loggerServiceBase.Info(JsonConvert.SerializeObject(logDetail));

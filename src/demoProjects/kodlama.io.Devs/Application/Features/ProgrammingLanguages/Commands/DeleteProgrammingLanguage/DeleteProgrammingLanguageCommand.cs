@@ -5,12 +5,14 @@ using Application.Services.Repositories;
 using AutoMapper;
 using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Caching;
+using Core.Application.Pipelines.Logging;
+using Core.Application.Pipelines.Transaction;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.ProgrammingLanguages.Commands.DeleteProgrammingLanguage
 {
-    public class DeleteProgrammingLanguageCommand : IRequest<DeleteProgrammingLanguageDto>, ICacheRemoverRequest, ISecuredRequest
+    public class DeleteProgrammingLanguageCommand : IRequest<DeleteProgrammingLanguageDto>, ICacheRemoverRequest, ISecuredRequest, ILoggableRequest, ITransactionableOperation
     {
         public int Id { get; set; }
         public bool BypassCache { get; set; }
