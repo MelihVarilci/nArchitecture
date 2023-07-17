@@ -2,17 +2,16 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Persistence.Contexts;
 using Persistence.Repositories;
 
 namespace Persistence
 {
     public static class PersistenceServiceRegistration
     {
-        public static IServiceCollection AddPersistenceServices(this IServiceCollection services,
-                        IConfiguration configuration)
+        public static IServiceCollection AddPersistenceServices<TContext>(this IServiceCollection services, IConfiguration configuration)
+            where TContext : DbContext
         {
-            services.AddDbContext<BaseDbContext>(options =>
+            services.AddDbContext<TContext>(options =>
                                                      options.UseSqlServer(
                                                          configuration.GetConnectionString("KodlamaIoDevsConnectionString")));
 

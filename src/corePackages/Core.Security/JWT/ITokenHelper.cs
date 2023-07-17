@@ -1,4 +1,4 @@
-﻿using Core.Security.Entities;
+﻿using Core.Security.Moldels;
 
 namespace Core.Security.JWT;
 
@@ -6,7 +6,7 @@ public interface ITokenHelper
 {
     public int RefreshTokenTTLOption { get; }
 
-    AccessToken CreateToken(User user, ICollection<OperationClaim> operationClaims);
+    AccessToken CreateToken(AppUser user, ICollection<OperationClaim> operationClaims);
 
-    RefreshToken CreateRefreshToken(User user, string ipAddress);
+    AppUserToken CreateRefreshToken(AppUser user, string ipAddress);
 }

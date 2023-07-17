@@ -3,7 +3,7 @@ using Application.Services.Repositories;
 using Core.Application.Rules;
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Persistence.Paging;
-using Core.Security.Entities;
+using Core.Security.Moldels;
 
 namespace Application.Features.OperationClaims.Rules
 {

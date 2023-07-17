@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence;
+using Persistence.Contexts;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,20 +14,20 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDistributedMemoryCache();
 
-builder.Services.AddSecurityServices();
+builder.Services.AddSecurityServices<BaseDbContext>();
 builder.Services.AddApplicationServices();
-builder.Services.AddPersistenceServices(builder.Configuration);
+builder.Services.AddPersistenceServices<BaseDbContext>(builder.Configuration);
 
 TokenOptions? tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
-builder.Services.AddAuthentication(opt =>
+builder.Services.AddAuthentication(options =>
 {
-    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 }) // Authentication: "Bearer JWT_TOKEN"
-       .AddJwtBearer(opt =>
+       .AddJwtBearer(options =>
        {
-           opt.TokenValidationParameters = new TokenValidationParameters
+           options.TokenValidationParameters = new TokenValidationParameters
            {
                ValidateIssuer = true,
                ValidIssuer = tokenOptions?.Issuer,
@@ -48,7 +49,7 @@ builder.Services.AddAuthentication(opt =>
                #endregion ClockSkew
            };
 
-           opt.Events = new JwtBearerEvents
+           options.Events = new JwtBearerEvents
            {
                OnChallenge = context =>
                {
@@ -71,7 +72,8 @@ builder.Services.AddAuthentication(opt =>
                    return Task.CompletedTask;
                },
            };
-       });
+       })
+       .AddCookie();
 
 builder.Services.AddHttpContextAccessor();
 

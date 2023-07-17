@@ -3,7 +3,7 @@ using Application.Services.Repositories;
 using AutoMapper;
 using Core.Application.Requests;
 using Core.Persistence.Paging;
-using Core.Security.Entities;
+using Core.Security.Moldels;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

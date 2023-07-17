@@ -1,10 +1,10 @@
 ﻿using Core.Persistence.Repositories;
-using Core.Security.Entities;
+using Core.Security.Moldels;
 
 namespace Application.Services.Repositories
 {
-    public interface IRefreshTokenRepository : IAsyncRepository<RefreshToken>, IRepository<RefreshToken>
+    public interface IRefreshTokenRepository : IAsyncRepository<AppUserToken>, IRepository<AppUserToken>
     {
-        public Task<ICollection<RefreshToken>> GetAllOldActiveRefreshTokensAsync(User user, int ttl);
+        public Task<ICollection<AppUserToken>> GetAllOldActiveRefreshTokensAsync(AppUser user, int ttl);
     }
 }

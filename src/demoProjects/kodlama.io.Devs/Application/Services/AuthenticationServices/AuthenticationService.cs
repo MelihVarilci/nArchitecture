@@ -2,9 +2,9 @@
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Mailing;
 using Core.Security.EmailAuthenticator;
-using Core.Security.Entities;
 using Core.Security.Enums;
 using Core.Security.JWT;
+using Core.Security.Moldels;
 using Core.Security.OtpAuthenticator;
 
 namespace Application.Services.AuthenticationServices
@@ -38,13 +38,13 @@ namespace Application.Services.AuthenticationServices
             _otpAuthenticatorRepository = otpAuthenticatorRepository;
         }
 
-        public async Task<RefreshToken> AddRefreshToken(RefreshToken refreshToken)
+        public async Task<AppUserToken> AddRefreshToken(AppUserToken refreshToken)
         {
-            RefreshToken addedRefreshToken = await _refreshTokenRepository.AddAsync(refreshToken);
+            AppUserToken addedRefreshToken = await _refreshTokenRepository.AddAsync(refreshToken);
             return addedRefreshToken;
         }
 
-        public async Task<AccessToken> CreateAccessToken(User user)
+        public async Task<AccessToken> CreateAccessToken(AppUser user)
         {
             ICollection<OperationClaim> operationClaims =
                 await _userOperationClaimRepository.GetOperationClaimsByUserIdAsync(user.Id);
@@ -52,22 +52,22 @@ namespace Application.Services.AuthenticationServices
             return accessToken;
         }
 
-        public Task<RefreshToken> CreateRefreshToken(User user, string ipAddress)
+        public Task<AppUserToken> CreateRefreshToken(AppUser user, string ipAddress)
         {
-            RefreshToken refreshToken = _tokenHelper.CreateRefreshToken(user, ipAddress);
+            AppUserToken refreshToken = _tokenHelper.CreateRefreshToken(user, ipAddress);
             return Task.FromResult(refreshToken);
         }
 
-        public async Task DeleteOldActiveRefreshTokens(User user)
+        public async Task DeleteOldActiveRefreshTokens(AppUser user)
         {
             // Yeni login işleminde, yeni bir refresh token zinciri oluşacaktır. Hali hazırda bulunan diğer zincirler (en son aktif olan token'a göre) yeterince eskiyse (RefreshTokenTTL opsiyonundaki süre kadar) silinir.
-            ICollection<RefreshToken> oldActiveRefreshTokens = await _refreshTokenRepository
+            ICollection<AppUserToken> oldActiveRefreshTokens = await _refreshTokenRepository
                                                                    .GetAllOldActiveRefreshTokensAsync(
                                                                        user, _tokenHelper.RefreshTokenTTLOption);
             await _refreshTokenRepository.DeleteRangeAsync(oldActiveRefreshTokens.ToList());
         }
 
-        public async Task SendAuthenticatorCode(User user)
+        public async Task SendAuthenticatorCode(AppUser user)
         {
             switch (user.AuthenticatorType)
             {
@@ -77,7 +77,7 @@ namespace Application.Services.AuthenticationServices
             }
         }
 
-        public async Task VerifyAuthenticatorCode(User user, string code)
+        public async Task VerifyAuthenticatorCode(AppUser user, string code)
         {
             switch (user.AuthenticatorType)
             {
@@ -94,7 +94,7 @@ namespace Application.Services.AuthenticationServices
             }
         }
 
-        private async Task sendAuthenticatorCodeWithEmail(User user)
+        private async Task sendAuthenticatorCodeWithEmail(AppUser user)
         {
             EmailAuthenticator userEmailAuthenticator =
                 await _emailAuthenticatorRepository.GetAsync(uea => uea.UserId == user.Id);
@@ -113,7 +113,7 @@ namespace Application.Services.AuthenticationServices
             await _mailService.SendMailAsync(mailData);
         }
 
-        private async Task verifyEmailAuthenticatorCode(User user, string code)
+        private async Task verifyEmailAuthenticatorCode(AppUser user, string code)
         {
             EmailAuthenticator userEmailAuthenticator =
                 await _emailAuthenticatorRepository.GetAsync(uea => uea.UserId == user.Id);
@@ -125,7 +125,7 @@ namespace Application.Services.AuthenticationServices
             await _emailAuthenticatorRepository.UpdateAsync(userEmailAuthenticator);
         }
 
-        private async Task verifyOtpAuthenticatorCode(User user, string codeToVerify)
+        private async Task verifyOtpAuthenticatorCode(AppUser user, string codeToVerify)
         {
             OtpAuthenticator userOtpAuthenticator =
                 await _otpAuthenticatorRepository.GetAsync(uoa => uoa.UserId == user.Id);

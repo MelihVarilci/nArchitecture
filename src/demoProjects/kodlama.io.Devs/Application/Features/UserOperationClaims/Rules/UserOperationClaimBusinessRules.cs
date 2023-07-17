@@ -2,7 +2,7 @@
 using Application.Services.Repositories;
 using Core.Application.Rules;
 using Core.CrossCuttingConcerns.Exceptions;
-using Core.Security.Entities;
+using Core.Security.Moldels;
 
 namespace Application.Features.UserOperationClaims.Rules
 {
@@ -24,7 +24,7 @@ namespace Application.Features.UserOperationClaims.Rules
 
         public async Task UserShouldBeExist(int userId)
         {
-            User? user = await _userRepository.GetAsync(x => x.Id == userId);
+            AppUser? user = await _userRepository.GetAsync(x => x.Id == userId);
 
             if (user is null)
                 throw new BusinessException(Messages.UserNotFound);

@@ -2,7 +2,7 @@
 using Application.Features.OperationClaims.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
-using Core.Security.Entities;
+using Core.Security.Moldels;
 using MediatR;
 
 namespace Application.Features.OperationClaims.Commands.DeleteOperationClaim

@@ -1,6 +1,6 @@
 ﻿namespace Core.Persistence.Repositories;
 
-public class Entity
+public class Entity : IEntity
 {
     public int Id { get; set; }
 

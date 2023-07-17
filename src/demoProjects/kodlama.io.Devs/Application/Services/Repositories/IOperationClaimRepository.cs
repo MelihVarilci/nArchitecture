@@ -1,5 +1,5 @@
 ﻿using Core.Persistence.Repositories;
-using Core.Security.Entities;
+using Core.Security.Moldels;
 
 namespace Application.Services.Repositories
 {

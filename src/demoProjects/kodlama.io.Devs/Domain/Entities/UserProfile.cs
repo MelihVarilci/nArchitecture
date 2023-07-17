@@ -1,9 +1,9 @@
-﻿using Core.Security.Entities;
-using Core.Security.Enums;
+﻿using Core.Security.Enums;
+using Core.Security.Moldels;
 
 namespace Domain.Entities
 {
-    public class UserProfile : User
+    public class UserProfile : AppUser
     {
         public virtual SocialProfile SocialProfile { get; set; }
 

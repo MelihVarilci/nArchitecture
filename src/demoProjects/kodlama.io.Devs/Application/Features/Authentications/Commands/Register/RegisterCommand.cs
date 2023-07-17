@@ -4,9 +4,9 @@ using Application.Services.AuthenticationServices;
 using Application.Services.Repositories;
 using AutoMapper;
 using Core.Security.Dtos;
-using Core.Security.Entities;
 using Core.Security.Hashing;
 using Core.Security.JWT;
+using Core.Security.Moldels;
 using Domain.Entities;
 using MediatR;
 
@@ -53,7 +53,7 @@ namespace Application.Features.Authentications.Commands.Register
                 // Generate AccessToken
                 AccessToken createdAccessToken = await _authenticationService.CreateAccessToken(newUser);
 
-                RefreshToken createdRefreshToken = await _authenticationService.CreateRefreshToken(newUser, request.IpAddress);
+                AppUserToken createdRefreshToken = await _authenticationService.CreateRefreshToken(newUser, request.IpAddress);
                 await _authenticationService.AddRefreshToken(createdRefreshToken);
 
                 RegisteredResponse response = new()

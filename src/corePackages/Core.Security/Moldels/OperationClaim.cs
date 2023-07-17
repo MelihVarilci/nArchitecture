@@ -1,6 +1,6 @@
 ﻿using Core.Persistence.Repositories;
 
-namespace Core.Security.Entities;
+namespace Core.Security.Moldels;
 
 public class OperationClaim : Entity
 {

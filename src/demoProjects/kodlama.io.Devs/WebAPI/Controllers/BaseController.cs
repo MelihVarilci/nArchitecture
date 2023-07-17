@@ -1,4 +1,4 @@
-﻿using Core.Security.Entities;
+﻿using Core.Security.Moldels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
             return Request.Cookies["refreshToken"];
         }
 
-        protected void setRefreshTokenToCookie(RefreshToken refreshToken)
+        protected void setRefreshTokenToCookie(AppUserToken refreshToken)
         {
             Response.Cookies.Append(key: "refreshToken",
                                     refreshToken.Token,

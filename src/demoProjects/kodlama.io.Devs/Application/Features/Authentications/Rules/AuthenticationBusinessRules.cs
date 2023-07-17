@@ -2,9 +2,9 @@
 using Application.Services.Repositories;
 using Core.Application.Rules;
 using Core.CrossCuttingConcerns.Exceptions;
-using Core.Security.Entities;
 using Core.Security.Enums;
 using Core.Security.Hashing;
+using Core.Security.Moldels;
 
 namespace Application.Features.Authentications.Rules
 {
@@ -19,18 +19,18 @@ namespace Application.Features.Authentications.Rules
 
         public async Task UserEmailCannotBeDuplicatedWhenInserted(string email)
         {
-            User? user = await _userRepository.GetAsync(u => u.Email.Equals(email.ToLower()));
+            AppUser? user = await _userRepository.GetAsync(u => u.Email.Equals(email.ToLower()));
             if (user is not null) throw new BusinessException(Messages.UserEmailAlreadyExists);
         }
 
-        public Task UserShouldBeExists(User? user)
+        public Task UserShouldBeExists(AppUser? user)
         {
             if (user == null)
                 throw new BusinessException(Messages.UserNotFound);
             return Task.CompletedTask;
         }
 
-        public Task UserPasswordShouldBeMatch(User user, string password)
+        public Task UserPasswordShouldBeMatch(AppUser user, string password)
         {
             bool isMatched = HashingHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt);
             if (isMatched == false)
@@ -38,14 +38,14 @@ namespace Application.Features.Authentications.Rules
             return Task.CompletedTask;
         }
 
-        public Task RefreshTokenShouldBeExists(RefreshToken? refreshToken)
+        public Task RefreshTokenShouldBeExists(AppUserToken? refreshToken)
         {
             if (refreshToken == null)
                 throw new BusinessException(Messages.RefreshTokenNotFound);
             return Task.CompletedTask;
         }
 
-        public Task RefreshTokenShouldBeActive(RefreshToken refreshToken)
+        public Task RefreshTokenShouldBeActive(AppUserToken refreshToken)
         {
             if (refreshToken.Revoked != null ||
                 (refreshToken.Revoked == null && refreshToken.Expires < DateTime.UtcNow))
@@ -53,7 +53,7 @@ namespace Application.Features.Authentications.Rules
             return Task.CompletedTask;
         }
 
-        public Task UserShouldNotBeHasAuthenticator(User user)
+        public Task UserShouldNotBeHasAuthenticator(AppUser user)
         {
             if (user.AuthenticatorType is not AuthenticatorType.None)
                 throw new BusinessException(Messages.UserAlreadyHasAuthenticator);

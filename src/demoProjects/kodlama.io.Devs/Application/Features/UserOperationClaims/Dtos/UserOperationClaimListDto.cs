@@ -1,4 +1,4 @@
-﻿using Core.Security.Entities;
+﻿using Core.Security.Moldels;
 
 namespace Application.Features.UserOperationClaims.Dtos
 {

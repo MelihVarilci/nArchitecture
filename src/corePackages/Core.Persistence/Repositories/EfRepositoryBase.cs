@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 namespace Core.Persistence.Repositories;
 
 public class EfRepositoryBase<TEntity, TContext> : IAsyncRepository<TEntity>, IRepository<TEntity>
-    where TEntity : Entity
+    where TEntity : class, IEntity
     where TContext : DbContext
 {
     protected TContext Context { get; }

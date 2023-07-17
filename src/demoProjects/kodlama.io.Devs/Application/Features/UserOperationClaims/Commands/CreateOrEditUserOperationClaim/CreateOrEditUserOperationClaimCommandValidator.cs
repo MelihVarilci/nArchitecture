@@ -1,4 +1,4 @@
-﻿using Core.Security.Entities;
+﻿using Core.Security.Moldels;
 using FluentValidation;
 
 namespace Application.Features.UserOperationClaims.Commands.CreateOrEditUserOperationClaim

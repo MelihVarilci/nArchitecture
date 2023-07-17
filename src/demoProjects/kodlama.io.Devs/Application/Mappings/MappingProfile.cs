@@ -16,7 +16,7 @@ using Application.Features.UserOperationClaims.Models;
 using AutoMapper;
 using Core.Persistence.Paging;
 using Core.Security.Dtos;
-using Core.Security.Entities;
+using Core.Security.Moldels;
 using Domain.Entities;
 
 namespace Application.Mappings
@@ -27,7 +27,7 @@ namespace Application.Mappings
         {
             #region User
 
-            CreateMap<User, UserForRegisterDto>().ReverseMap();
+            CreateMap<AppUser, UserForRegisterDto>().ReverseMap();
             CreateMap<UserProfile, UserForRegisterDto>().ReverseMap();
 
             #endregion User

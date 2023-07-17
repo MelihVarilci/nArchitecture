@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Core.Security.EntityConfigurations;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

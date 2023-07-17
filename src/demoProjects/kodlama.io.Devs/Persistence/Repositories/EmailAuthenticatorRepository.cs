@@ -1,6 +1,6 @@
 ﻿using Application.Services.Repositories;
 using Core.Persistence.Repositories;
-using Core.Security.Entities;
+using Core.Security.Moldels;
 using Persistence.Contexts;
 
 namespace Persistence.Repositories
@@ -11,7 +11,7 @@ namespace Persistence.Repositories
         {
         }
 
-        public async Task<ICollection<EmailAuthenticator>> DeleteAllNonVerifiedAsync(User user)
+        public async Task<ICollection<EmailAuthenticator>> DeleteAllNonVerifiedAsync(AppUser user)
         {
             List<EmailAuthenticator> userEmailAuthenticators = Query()
                 .Where(uea => uea.UserId == user.Id && uea.IsVerified == false)

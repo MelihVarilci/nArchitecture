@@ -1,8 +1,8 @@
-﻿using Core.Security.Entities;
+﻿using Core.Security.Moldels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Persistence.EntityConfigurations
+namespace Core.Security.EntityConfigurations
 {
     public class OperationClaimEntityConfiguration : EntityConfiguration<OperationClaim>
     {

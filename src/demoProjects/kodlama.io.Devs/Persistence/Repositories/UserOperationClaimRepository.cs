@@ -1,6 +1,6 @@
 ﻿using Application.Services.Repositories;
 using Core.Persistence.Repositories;
-using Core.Security.Entities;
+using Core.Security.Moldels;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Contexts;
 

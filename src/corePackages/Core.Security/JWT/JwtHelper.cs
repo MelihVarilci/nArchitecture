@@ -1,6 +1,6 @@
 ﻿using Core.Security.Encryption;
-using Core.Security.Entities;
 using Core.Security.Extensions;
+using Core.Security.Moldels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -20,7 +20,7 @@ public class JwtHelper : ITokenHelper
         _tokenOptions = configuration.GetSection("TokenOptions").Get<TokenOptions>();
     }
 
-    public AccessToken CreateToken(User user, ICollection<OperationClaim> operationClaims)
+    public AccessToken CreateToken(AppUser user, ICollection<OperationClaim> operationClaims)
     {
         _accessTokenExpiration = DateTime.Now.AddMinutes(_tokenOptions.AccessTokenExpiration);
 
@@ -39,21 +39,22 @@ public class JwtHelper : ITokenHelper
         };
     }
 
-    public RefreshToken CreateRefreshToken(User user, string ipAddress)
+    public AppUserToken CreateRefreshToken(AppUser user, string ipAddress)
     {
-        RefreshToken refreshToken = new()
+        AppUserToken refreshToken = new()
         {
             UserId = user.Id,
             Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
             Expires = DateTime.UtcNow.AddDays(7),
             Created = DateTime.UtcNow,
-            CreatedByIp = ipAddress
+            CreatedByIp = ipAddress,
+            LoginProvider = "TokenValidityKeyProvider" // Bu alan kullanıcın giriş yapmaya çalıştığı yönteme göre değişmeli sabit verilmemelidir!
         };
 
         return refreshToken;
     }
 
-    public JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, User user,
+    public JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, AppUser user,
                                                    SigningCredentials signingCredentials,
                                                    ICollection<OperationClaim> operationClaims)
     {
@@ -68,7 +69,7 @@ public class JwtHelper : ITokenHelper
         return jwt;
     }
 
-    private IEnumerable<Claim> SetClaims(User user, ICollection<OperationClaim> operationClaims)
+    private IEnumerable<Claim> SetClaims(AppUser user, ICollection<OperationClaim> operationClaims)
     {
         List<Claim> claims = new();
 
