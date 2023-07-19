@@ -11,6 +11,14 @@ namespace Core.Security.EntityConfigurations
             base.Configure(builder);
 
             builder.ToTable("AppUserClaims");
+
+            builder.Property(t => t.UserId).HasColumnName("UserId");
+
+            builder.HasOne(t => t.User)
+                   .WithMany(t => t.Claims)
+                   .HasForeignKey(x => x.UserId)
+                   .OnDelete(DeleteBehavior.NoAction)
+                   .IsRequired();
         }
     }
 }

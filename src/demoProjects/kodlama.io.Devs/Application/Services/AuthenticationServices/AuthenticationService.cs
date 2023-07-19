@@ -11,7 +11,7 @@ namespace Application.Services.AuthenticationServices
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly IUserOperationClaimRepository _userOperationClaimRepository;
+        private readonly IAppUserClaimRepository _appUserClaimRepository;
         private readonly ITokenHelper _tokenHelper;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly IEmailAuthenticatorHelper _emailAuthenticatorHelper;
@@ -20,7 +20,7 @@ namespace Application.Services.AuthenticationServices
         private readonly IOtpAuthenticatorHelper _otpAuthenticatorHelper;
         private readonly IOtpAuthenticatorRepository _otpAuthenticatorRepository;
 
-        public AuthenticationService(IUserOperationClaimRepository userOperationClaimRepository,
+        public AuthenticationService(IAppUserClaimRepository userOperationClaimRepository,
             ITokenHelper tokenHelper, IRefreshTokenRepository refreshTokenRepository,
             IEmailAuthenticatorHelper emailAuthenticatorHelper,
             IEmailAuthenticatorRepository emailAuthenticatorRepository,
@@ -28,7 +28,7 @@ namespace Application.Services.AuthenticationServices
             IOtpAuthenticatorHelper otpAuthenticatorHelper,
             IOtpAuthenticatorRepository otpAuthenticatorRepository)
         {
-            _userOperationClaimRepository = userOperationClaimRepository;
+            _appUserClaimRepository = userOperationClaimRepository;
             _tokenHelper = tokenHelper;
             _refreshTokenRepository = refreshTokenRepository;
             _emailAuthenticatorHelper = emailAuthenticatorHelper;
@@ -46,8 +46,8 @@ namespace Application.Services.AuthenticationServices
 
         public async Task<AccessToken> CreateAccessToken(AppUser user)
         {
-            ICollection<OperationClaim> operationClaims =
-                await _userOperationClaimRepository.GetOperationClaimsByUserIdAsync(user.Id);
+            ICollection<AppUserClaim> operationClaims =
+                await _appUserClaimRepository.GetOperationClaimsByUserIdAsync(user.Id);
             AccessToken accessToken = _tokenHelper.CreateToken(user, operationClaims);
             return accessToken;
         }

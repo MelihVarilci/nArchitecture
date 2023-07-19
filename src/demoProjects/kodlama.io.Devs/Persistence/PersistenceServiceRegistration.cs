@@ -18,8 +18,7 @@ namespace Persistence
             #region BaseRepository
 
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IOperationClaimRepository, OperationClaimRepository>();
-            services.AddScoped<IUserOperationClaimRepository, UserOperationClaimRepository>();
+            services.AddScoped<IAppUserClaimRepository, AppUserClaimRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             services.AddScoped<IEmailAuthenticatorRepository, EmailAuthenticatorRepository>();
             services.AddScoped<IOtpAuthenticatorRepository, OtpAuthenticatorRepository>();

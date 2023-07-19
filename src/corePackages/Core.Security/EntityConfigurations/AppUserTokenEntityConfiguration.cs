@@ -12,11 +12,6 @@ namespace Core.Security.EntityConfigurations
 
             builder.ToTable("AppUserTokens");
 
-            // Composite primary key consisting of the UserId, LoginProvider and Name
-            //builder.HasKey(t => new { t.Id, t.UserId, t.LoginProvider });
-
-            //builder.Property(i => i.Id).HasColumnName("Id").ValueGeneratedOnAdd();
-
             // Limit the size of the composite key columns due to common DB restrictions
             builder.Property(t => t.UserId).HasColumnName("UserId");
             builder.Property(t => t.LoginProvider).HasColumnName("LoginProvider");
@@ -37,7 +32,7 @@ namespace Core.Security.EntityConfigurations
             builder.Ignore(t => t.IsActive);
 
             builder.HasOne(t => t.User)
-                   .WithMany(t => t.UserTokens)
+                   .WithMany(t => t.Tokens)
                    .HasForeignKey(x => x.UserId)
                    .OnDelete(DeleteBehavior.NoAction)
                    .IsRequired();

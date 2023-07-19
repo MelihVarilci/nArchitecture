@@ -6,7 +6,7 @@ public interface ITokenHelper
 {
     public int RefreshTokenTTLOption { get; }
 
-    AccessToken CreateToken(AppUser user, ICollection<OperationClaim> operationClaims);
+    AccessToken CreateToken(AppUser user, ICollection<AppUserClaim> operationClaims);
 
     AppUserToken CreateRefreshToken(AppUser user, string ipAddress);
 }

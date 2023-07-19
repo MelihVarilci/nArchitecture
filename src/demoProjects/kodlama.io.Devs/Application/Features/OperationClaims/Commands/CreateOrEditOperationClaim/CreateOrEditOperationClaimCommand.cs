@@ -10,15 +10,17 @@ namespace Application.Features.OperationClaims.Commands.CreateOrEditOperationCla
     public class CreateOrEditOperationClaimCommand : IRequest<CreateOrEditOperationClaimDto>
     {
         public int? Id { get; set; }
-        public string Name { get; set; }
+        public int UserId { get; set; }
+        public string ClaimType { get; set; }
+        public string ClaimValue { get; set; }
 
         public class CreateOrEditOperationClaimCommandHandler : IRequestHandler<CreateOrEditOperationClaimCommand, CreateOrEditOperationClaimDto>
         {
-            private readonly IOperationClaimRepository _operationClaimRepository;
+            private readonly IAppUserClaimRepository _operationClaimRepository;
             private readonly IMapper _mapper;
             private readonly OperationClaimBusinessRules _operationClaimBusinessRules;
 
-            public CreateOrEditOperationClaimCommandHandler(IOperationClaimRepository operationClaimRepository, IMapper mapper, OperationClaimBusinessRules operationClaimBusinessRules)
+            public CreateOrEditOperationClaimCommandHandler(IAppUserClaimRepository operationClaimRepository, IMapper mapper, OperationClaimBusinessRules operationClaimBusinessRules)
             {
                 _operationClaimRepository = operationClaimRepository;
                 _mapper = mapper;
@@ -27,9 +29,9 @@ namespace Application.Features.OperationClaims.Commands.CreateOrEditOperationCla
 
             public async Task<CreateOrEditOperationClaimDto> Handle(CreateOrEditOperationClaimCommand request, CancellationToken cancellationToken)
             {
-                await _operationClaimBusinessRules.OperationClaimNameCanNotBeDuplicatedWhenInserted(request.Name);
+                await _operationClaimBusinessRules.OperationClaimNameCanNotBeDuplicatedWhenInserted(request.ClaimValue);
 
-                OperationClaim mappedOperationClaim = _mapper.Map<OperationClaim>(request);
+                AppUserClaim mappedOperationClaim = _mapper.Map<AppUserClaim>(request);
 
                 if (request.Id == null || request.Id == 0)
                 {
@@ -41,17 +43,17 @@ namespace Application.Features.OperationClaims.Commands.CreateOrEditOperationCla
                 }
             }
 
-            private async Task<CreateOrEditOperationClaimDto> Create(OperationClaim mappedOperationClaim)
+            private async Task<CreateOrEditOperationClaimDto> Create(AppUserClaim mappedOperationClaim)
             {
-                OperationClaim createdOperationClaim = await _operationClaimRepository.AddAsync(mappedOperationClaim);
+                AppUserClaim createdOperationClaim = await _operationClaimRepository.AddAsync(mappedOperationClaim);
                 CreateOrEditOperationClaimDto createOrEditOperationClaimDto = _mapper.Map<CreateOrEditOperationClaimDto>(createdOperationClaim);
 
                 return createOrEditOperationClaimDto;
             }
 
-            private async Task<CreateOrEditOperationClaimDto> Update(OperationClaim mappedOperationClaim)
+            private async Task<CreateOrEditOperationClaimDto> Update(AppUserClaim mappedOperationClaim)
             {
-                OperationClaim updatedOperationClaim = await _operationClaimRepository.UpdateAsync(mappedOperationClaim);
+                AppUserClaim updatedOperationClaim = await _operationClaimRepository.UpdateAsync(mappedOperationClaim);
                 CreateOrEditOperationClaimDto createOrEditOperationClaimDto = _mapper.Map<CreateOrEditOperationClaimDto>(updatedOperationClaim);
 
                 return createOrEditOperationClaimDto;

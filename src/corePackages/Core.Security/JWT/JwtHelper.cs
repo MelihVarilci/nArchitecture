@@ -20,7 +20,7 @@ public class JwtHelper : ITokenHelper
         _tokenOptions = configuration.GetSection("TokenOptions").Get<TokenOptions>();
     }
 
-    public AccessToken CreateToken(AppUser user, ICollection<OperationClaim> operationClaims)
+    public AccessToken CreateToken(AppUser user, ICollection<AppUserClaim> operationClaims)
     {
         _accessTokenExpiration = DateTime.Now.AddMinutes(_tokenOptions.AccessTokenExpiration);
 
@@ -56,7 +56,7 @@ public class JwtHelper : ITokenHelper
 
     public JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, AppUser user,
                                                    SigningCredentials signingCredentials,
-                                                   ICollection<OperationClaim> operationClaims)
+                                                   ICollection<AppUserClaim> operationClaims)
     {
         JwtSecurityToken jwt = new(
             tokenOptions.Issuer,
@@ -69,14 +69,14 @@ public class JwtHelper : ITokenHelper
         return jwt;
     }
 
-    private IEnumerable<Claim> SetClaims(AppUser user, ICollection<OperationClaim> operationClaims)
+    private IEnumerable<Claim> SetClaims(AppUser user, ICollection<AppUserClaim> operationClaims)
     {
         List<Claim> claims = new();
 
         claims.AddNameIdentifier(user.Id.ToString());
         claims.AddEmail(user.Email);
         claims.AddName($"{user.FirstName} {user.LastName}");
-        claims.AddRoles(operationClaims.Select(c => c.Name).ToArray());
+        claims.AddRoles(operationClaims.Select(c => c.ClaimValue).ToArray());
 
         return claims.ToArray();
     }

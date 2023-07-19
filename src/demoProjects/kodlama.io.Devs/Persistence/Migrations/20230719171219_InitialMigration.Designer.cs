@@ -12,7 +12,7 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
-    [Migration("20230717200922_InitialMigration")]
+    [Migration("20230719171219_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -221,7 +221,8 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("UserId");
 
                     b.HasKey("Id");
 
@@ -232,16 +233,6 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Core.Security.Moldels.AppUserLogin", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
-                        .HasColumnName("LoginProvider");
-
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
-                        .HasColumnName("ProviderKey");
-
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -249,13 +240,24 @@ namespace Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)")
+                        .HasColumnName("LoginProvider");
+
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("ProviderKey")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)")
+                        .HasColumnName("ProviderKey");
 
-                    b.HasKey("LoginProvider", "ProviderKey");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("UserId");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
@@ -264,14 +266,6 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Core.Security.Moldels.AppUserRole", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("UserId");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int")
-                        .HasColumnName("RoleId");
-
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -279,9 +273,19 @@ namespace Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.HasKey("UserId", "RoleId");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int")
+                        .HasColumnName("RoleId");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("UserId");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("AppUserRoles", (string)null);
                 });
@@ -342,51 +346,6 @@ namespace Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("AppUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("Core.Security.Moldels.OperationClaim", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("Id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("OperationClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Core.Security.Moldels.UserOperationClaim", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("Id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("OperationClaimId")
-                        .HasColumnType("int")
-                        .HasColumnName("OperationClaimId");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OperationClaimId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserOperationClaims", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.ProgrammingLanguage", b =>
@@ -471,29 +430,35 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Core.Security.Moldels.AppRoleClaim", b =>
                 {
-                    b.HasOne("Core.Security.Moldels.AppRole", null)
-                        .WithMany()
+                    b.HasOne("Core.Security.Moldels.AppRole", "Role")
+                        .WithMany("RoleClaims")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Core.Security.Moldels.AppUserClaim", b =>
                 {
-                    b.HasOne("Core.Security.Moldels.AppUser", null)
-                        .WithMany()
+                    b.HasOne("Core.Security.Moldels.AppUser", "User")
+                        .WithMany("Claims")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Core.Security.Moldels.AppUserLogin", b =>
                 {
-                    b.HasOne("Core.Security.Moldels.AppUser", null)
-                        .WithMany()
+                    b.HasOne("Core.Security.Moldels.AppUser", "User")
+                        .WithMany("Logins")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Core.Security.Moldels.AppUserRole", b =>
@@ -505,7 +470,7 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Core.Security.Moldels.AppUser", "User")
-                        .WithMany("UserRoles")
+                        .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -518,29 +483,10 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Core.Security.Moldels.AppUserToken", b =>
                 {
                     b.HasOne("Core.Security.Moldels.AppUser", "User")
-                        .WithMany("UserTokens")
+                        .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Core.Security.Moldels.UserOperationClaim", b =>
-                {
-                    b.HasOne("Core.Security.Moldels.OperationClaim", "OperationClaim")
-                        .WithMany()
-                        .HasForeignKey("OperationClaimId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Security.Moldels.AppUser", "User")
-                        .WithMany("OperationClaims")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OperationClaim");
 
                     b.Navigation("User");
                 });
@@ -569,16 +515,20 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Core.Security.Moldels.AppRole", b =>
                 {
+                    b.Navigation("RoleClaims");
+
                     b.Navigation("UserRoles");
                 });
 
             modelBuilder.Entity("Core.Security.Moldels.AppUser", b =>
                 {
-                    b.Navigation("OperationClaims");
+                    b.Navigation("Claims");
 
-                    b.Navigation("UserRoles");
+                    b.Navigation("Logins");
 
-                    b.Navigation("UserTokens");
+                    b.Navigation("Roles");
+
+                    b.Navigation("Tokens");
                 });
 
             modelBuilder.Entity("Domain.Entities.ProgrammingLanguage", b =>

@@ -6,7 +6,7 @@ namespace Application.Features.OperationClaims.Commands.CreateOrEditOperationCla
     {
         public CreateOrEditOperationClaimCommandValidator()
         {
-            RuleFor(c => c.Name).NotEmpty();
+            RuleFor(c => c.ClaimValue).NotEmpty();
         }
     }
 }

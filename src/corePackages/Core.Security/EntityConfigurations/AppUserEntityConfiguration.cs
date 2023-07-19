@@ -48,18 +48,16 @@ namespace Core.Security.EntityConfigurations
             builder.HasIndex(p => p.NormalizedUserName).IsUnique();
 
             // Each User can have many UserClaims
-            builder.HasMany<AppUserClaim>().WithOne().HasForeignKey(uc => uc.UserId).IsRequired();
+            //builder.HasMany<AppUserClaim>().WithOne(x => x.User).HasForeignKey(uc => uc.UserId).IsRequired();
 
             // Each User can have many UserLogins
-            builder.HasMany<AppUserLogin>().WithOne().HasForeignKey(ul => ul.UserId).IsRequired();
+            builder.HasMany<AppUserLogin>().WithOne(x => x.User).HasForeignKey(ul => ul.UserId).IsRequired();
 
             // Each User can have many UserTokens
-            builder.HasMany<AppUserToken>().WithOne().HasForeignKey(ut => ut.UserId).IsRequired();
+            builder.HasMany<AppUserToken>().WithOne(x => x.User).HasForeignKey(ut => ut.UserId).IsRequired();
 
             // Each User can have many entries in the UserRole join table
-            builder.HasMany<AppUserRole>().WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
-
-            //builder.HasMany(builder => builder.UserOperationClaims);
+            builder.HasMany<AppUserRole>().WithOne(x => x.User).HasForeignKey(ur => ur.UserId).IsRequired();
         }
     }
 }

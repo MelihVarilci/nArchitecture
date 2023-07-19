@@ -13,24 +13,24 @@ namespace Application.Features.OperationClaims.Commands.DeleteOperationClaim
 
         public class DeleteOperationClaimCommandQuery : IRequestHandler<DeleteOperationClaimCommand, DeleteOperationClaimDto>
         {
-            private readonly IOperationClaimRepository _operationClaimRepository;
+            private readonly IAppUserClaimRepository _appUserClaimRepository;
             private readonly IMapper _mapper;
             private readonly OperationClaimBusinessRules _operationClaimBusinessRules;
 
-            public DeleteOperationClaimCommandQuery(IOperationClaimRepository operationClaimRepository, IMapper mapper, OperationClaimBusinessRules operationClaimBusinessRules)
+            public DeleteOperationClaimCommandQuery(IAppUserClaimRepository appUserClaimRepository, IMapper mapper, OperationClaimBusinessRules operationClaimBusinessRules)
             {
-                _operationClaimRepository = operationClaimRepository;
+                _appUserClaimRepository = appUserClaimRepository;
                 _mapper = mapper;
                 _operationClaimBusinessRules = operationClaimBusinessRules;
             }
 
             public async Task<DeleteOperationClaimDto> Handle(DeleteOperationClaimCommand request, CancellationToken cancellationToken)
             {
-                OperationClaim? operationClaim = await _operationClaimRepository.GetAsync(x => x.Id == request.Id);
-                _operationClaimBusinessRules.OperationClaimShouldExistWhenRequested(operationClaim);
+                AppUserClaim? userClaim = await _appUserClaimRepository.GetAsync(x => x.Id == request.Id);
+                _operationClaimBusinessRules.OperationClaimShouldExistWhenRequested(userClaim);
 
-                await _operationClaimRepository.DeleteAsync(operationClaim);
-                DeleteOperationClaimDto deleteOperationClaimDto = _mapper.Map<DeleteOperationClaimDto>(operationClaim);
+                await _appUserClaimRepository.DeleteAsync(userClaim!);
+                DeleteOperationClaimDto deleteOperationClaimDto = _mapper.Map<DeleteOperationClaimDto>(userClaim);
 
                 return deleteOperationClaimDto;
             }

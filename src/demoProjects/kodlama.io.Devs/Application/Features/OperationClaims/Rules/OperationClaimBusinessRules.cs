@@ -9,22 +9,22 @@ namespace Application.Features.OperationClaims.Rules
 {
     public class OperationClaimBusinessRules : BaseBusinessRules
     {
-        private readonly IOperationClaimRepository _operationClaimRepository;
+        private readonly IAppUserClaimRepository _appUserClaimRepository;
 
-        public OperationClaimBusinessRules(IOperationClaimRepository operationClaimRepository)
+        public OperationClaimBusinessRules(IAppUserClaimRepository appUserClaimRepository)
         {
-            _operationClaimRepository = operationClaimRepository;
+            _appUserClaimRepository = appUserClaimRepository;
         }
 
-        public async Task OperationClaimNameCanNotBeDuplicatedWhenInserted(string name)
+        public async Task OperationClaimNameCanNotBeDuplicatedWhenInserted(string claimValue)
         {
-            IPaginate<OperationClaim> result = await _operationClaimRepository.GetListAsync(b => b.Name == name);
+            IPaginate<AppUserClaim> result = await _appUserClaimRepository.GetListAsync(b => b.ClaimValue == claimValue);
             if (result.Items.Any()) throw new BusinessException(Messages.OperationClaimNameExist);
         }
 
-        public void OperationClaimShouldExistWhenRequested(OperationClaim? operationClaim)
+        public void OperationClaimShouldExistWhenRequested(AppUserClaim? userClaim)
         {
-            if (operationClaim is null) throw new BusinessException(Messages.OperationClaimNotFound);
+            if (userClaim is null) throw new BusinessException(Messages.OperationClaimNotFound);
         }
     }
 }

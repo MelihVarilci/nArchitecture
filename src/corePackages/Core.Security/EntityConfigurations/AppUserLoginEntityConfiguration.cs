@@ -12,13 +12,18 @@ namespace Core.Security.EntityConfigurations
 
             builder.ToTable("AppUserLogins");
 
-            // Composite primary key consisting of the LoginProvider and the key to use
-            // with that provider
-            builder.HasKey(l => new { l.LoginProvider, l.ProviderKey });
+            builder.Property(i => i.Id).HasColumnName("Id").ValueGeneratedOnAdd();
 
             // Limit the size of the composite key columns due to common DB restrictions
+            builder.Property(t => t.UserId).HasColumnName("UserId");
             builder.Property(l => l.LoginProvider).HasMaxLength(128).HasColumnName("LoginProvider");
             builder.Property(l => l.ProviderKey).HasMaxLength(128).HasColumnName("ProviderKey");
+
+            builder.HasOne(t => t.User)
+                   .WithMany(t => t.Logins)
+                   .HasForeignKey(x => x.UserId)
+                   .OnDelete(DeleteBehavior.NoAction)
+                   .IsRequired();
         }
     }
 }

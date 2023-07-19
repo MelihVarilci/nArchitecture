@@ -23,9 +23,6 @@ namespace Core.Security.Moldels
         public DbSet<AppRoleClaim> AppRoleClaims { get; set; }
         public DbSet<AppUserRole> AppUserRoles { get; set; }
 
-        public DbSet<OperationClaim> OperationClaims { get; set; }
-        public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
-
         public AppDbContext(DbContextOptions<TSelf> options) : base(options)
         {
         }

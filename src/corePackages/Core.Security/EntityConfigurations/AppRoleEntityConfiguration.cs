@@ -26,10 +26,10 @@ namespace Core.Security.EntityConfigurations
             // Note that these relationships are configured with no navigation properties
 
             // Each Role can have many entries in the UserRole join table
-            builder.HasMany<AppUserRole>().WithOne().HasForeignKey(ur => ur.RoleId).IsRequired();
+            builder.HasMany<AppUserRole>().WithOne(x => x.Role).HasForeignKey(ur => ur.RoleId).IsRequired();
 
             // Each Role can have many associated RoleClaims
-            builder.HasMany<AppRoleClaim>().WithOne().HasForeignKey(rc => rc.RoleId).IsRequired();
+            //builder.HasMany<AppRoleClaim>().WithOne(x => x.Role).HasForeignKey(rc => rc.RoleId).IsRequired();
         }
     }
 }

@@ -28,8 +28,8 @@ namespace Application.Features.SocialProfiles.Queries.GetListSocialProfile
             {
                 IPaginate<SocialProfile> technologies = await _socialProfileRepository.GetListAsync(
                     include: x => x.Include(y => y.UserProfileFk)
-                                    .Include(x => x.UserProfileFk.OperationClaims)
-                                    .Include(x => x.UserProfileFk.UserTokens),
+                                   .Include(x => x.UserProfileFk.Claims)
+                                   .Include(x => x.UserProfileFk.Tokens),
                     index: request.PageRequest.Page,
                     size: request.PageRequest.PageSize);
 

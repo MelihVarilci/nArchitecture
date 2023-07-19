@@ -11,6 +11,12 @@ namespace Core.Security.EntityConfigurations
             base.Configure(builder);
 
             builder.ToTable("AppRoleClaims");
+
+            builder.HasOne(t => t.Role)
+                   .WithMany(t => t.RoleClaims)
+                   .HasForeignKey(x => x.RoleId)
+                   .OnDelete(DeleteBehavior.NoAction)
+                   .IsRequired();
         }
     }
 }

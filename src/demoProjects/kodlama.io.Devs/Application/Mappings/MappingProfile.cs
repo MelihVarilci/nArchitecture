@@ -10,9 +10,6 @@ using Application.Features.SocialProfiles.Models;
 using Application.Features.Technologies.Commands.CreateOrEditTechnology;
 using Application.Features.Technologies.Dtos;
 using Application.Features.Technologies.Models;
-using Application.Features.UserOperationClaims.Commands.CreateOrEditUserOperationClaim;
-using Application.Features.UserOperationClaims.Dtos;
-using Application.Features.UserOperationClaims.Models;
 using AutoMapper;
 using Core.Persistence.Paging;
 using Core.Security.Dtos;
@@ -32,29 +29,17 @@ namespace Application.Mappings
 
             #endregion User
 
-            #region UserOperationClaim
+            #region AppUserClaim
 
-            CreateMap<UserOperationClaim, CreateOrEditUserOperationClaimDto>().ReverseMap();
-            CreateMap<UserOperationClaim, CreateOrEditUserOperationClaimCommand>().ReverseMap();
-            CreateMap<IPaginate<UserOperationClaim>, UserOperationClaimListModel>().ReverseMap();
-            CreateMap<UserOperationClaim, UserOperationClaimListDto>().ReverseMap();
-            CreateMap<UserOperationClaim, UserOperationClaimGetByIdDto>().ReverseMap();
+            CreateMap<AppUserClaim, CreateOrEditOperationClaimDto>().ReverseMap();
+            CreateMap<AppUserClaim, CreateOrEditOperationClaimCommand>().ReverseMap();
+            CreateMap<IPaginate<AppUserClaim>, OperationClaimListModel>().ReverseMap();
+            CreateMap<AppUserClaim, OperationClaimListDto>().ReverseMap();
+            CreateMap<AppUserClaim, OperationClaimGetByIdDto>().ReverseMap();
 
-            CreateMap<UserOperationClaim, DeleteUserOperationClaimDto>().ReverseMap();
+            CreateMap<AppUserClaim, DeleteOperationClaimDto>().ReverseMap();
 
-            #endregion UserOperationClaim
-
-            #region OperationClaim
-
-            CreateMap<OperationClaim, CreateOrEditOperationClaimDto>().ReverseMap();
-            CreateMap<OperationClaim, CreateOrEditOperationClaimCommand>().ReverseMap();
-            CreateMap<IPaginate<OperationClaim>, OperationClaimListModel>().ReverseMap();
-            CreateMap<OperationClaim, OperationClaimListDto>().ReverseMap();
-            CreateMap<OperationClaim, OperationClaimGetByIdDto>().ReverseMap();
-
-            CreateMap<OperationClaim, DeleteOperationClaimDto>().ReverseMap();
-
-            #endregion OperationClaim
+            #endregion AppUserClaim
 
             #region ProgrammingLanguage
 

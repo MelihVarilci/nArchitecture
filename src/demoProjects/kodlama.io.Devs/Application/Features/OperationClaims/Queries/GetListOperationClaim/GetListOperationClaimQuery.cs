@@ -14,10 +14,10 @@ namespace Application.Features.OperationClaims.Queries.GetListOperationClaim
 
         public class GetListOperationClaimQueryHandler : IRequestHandler<GetListOperationClaimQuery, OperationClaimListModel>
         {
-            private readonly IOperationClaimRepository _operationClaimRepository;
+            private readonly IAppUserClaimRepository _operationClaimRepository;
             private readonly IMapper _mapper;
 
-            public GetListOperationClaimQueryHandler(IOperationClaimRepository operationClaimRepository, IMapper mapper)
+            public GetListOperationClaimQueryHandler(IAppUserClaimRepository operationClaimRepository, IMapper mapper)
             {
                 _operationClaimRepository = operationClaimRepository;
                 _mapper = mapper;
@@ -25,7 +25,7 @@ namespace Application.Features.OperationClaims.Queries.GetListOperationClaim
 
             public async Task<OperationClaimListModel> Handle(GetListOperationClaimQuery request, CancellationToken cancellationToken)
             {
-                IPaginate<OperationClaim> operationClaims = await _operationClaimRepository.GetListAsync(
+                IPaginate<AppUserClaim> operationClaims = await _operationClaimRepository.GetListAsync(
                     index: request.PageRequest.Page,
                     size: request.PageRequest.PageSize);
 

@@ -51,12 +51,15 @@ public static class SecurityServiceRegistration
             options.LogoutPath = new PathString("/Account/Logout");
             options.AccessDeniedPath = new PathString("/Account/AccessDenied");
             options.Cookie.Name = "AppCookie";
-            options.ExpireTimeSpan = TimeSpan.FromDays(60);
+            options.Cookie.HttpOnly = false; //Kötü niyetli insanların client-side tarafından Cookie'ye erişmesini engelliyoruz.
+            options.Cookie.SameSite = SameSiteMode.Lax; //Top level navigasyonlara sebep olmayan requestlere Cookie'nin gönderilmemesini belirtiyoruz.
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always; //HTTPS üzerinden erişilebilir yapıyoruz.
+            options.ExpireTimeSpan = TimeSpan.FromDays(60); //Oluşturulacak Cookie'nin vadesini belirliyoruz.
 
             // ReturnUrlParameter requires
             // using Microsoft.AspNetCore.Authentication.Cookies;
             options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
-            
+
             options.SlidingExpiration = true;
         });
 

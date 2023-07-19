@@ -13,15 +13,17 @@ public class AppUser : IdentityUser<int>, IEntity
     public bool IsActive { get; set; }
     public AuthenticatorType AuthenticatorType { get; set; }
 
-    public virtual ICollection<UserOperationClaim> OperationClaims { get; set; }
-    public virtual ICollection<AppUserToken> UserTokens { get; set; }
-    public virtual ICollection<AppUserRole> UserRoles { get; set; }
+    public virtual ICollection<AppUserClaim> Claims { get; set; }
+    public virtual ICollection<AppUserLogin> Logins { get; set; }
+    public virtual ICollection<AppUserToken> Tokens { get; set; }
+    public virtual ICollection<AppUserRole> Roles { get; set; }
 
     public AppUser()
     {
-        OperationClaims = new HashSet<UserOperationClaim>();
-        UserTokens = new HashSet<AppUserToken>();
-        UserRoles = new HashSet<AppUserRole>();
+        Claims = new HashSet<AppUserClaim>();
+        Logins = new HashSet<AppUserLogin>();
+        Tokens = new HashSet<AppUserToken>();
+        Roles = new HashSet<AppUserRole>();
     }
 
     public AppUser(int id, string firstName, string lastName, string email, byte[] passwordSalt, byte[] passwordHash,

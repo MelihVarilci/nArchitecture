@@ -12,13 +12,11 @@ namespace Core.Security.EntityConfigurations
 
             builder.ToTable("AppUserRoles");
 
-            builder.HasKey(r => new { r.UserId, r.RoleId });
-
             builder.Property(builder => builder.UserId).HasColumnName("UserId");
             builder.Property(builder => builder.RoleId).HasColumnName("RoleId");
 
             builder.HasOne(t => t.User)
-                   .WithMany(t => t.UserRoles)
+                   .WithMany(t => t.Roles)
                    .HasForeignKey(x => x.UserId)
                    .OnDelete(DeleteBehavior.NoAction)
                    .IsRequired();
