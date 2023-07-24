@@ -1,4 +1,4 @@
-﻿using Core.Persistence.Repositories;
+﻿using Core.Persistence.Entities;
 using Core.Security.Enums;
 using Microsoft.AspNetCore.Identity;
 

@@ -1,9 +1,9 @@
-﻿using Core.Persistence.Repositories;
+﻿using Core.Persistence.Entities.Auditing;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
-    public class SocialProfile : Entity
+    public class SocialProfile : FullAuditedEntity
     {
         public string? GithubUrl { get; set; }
         public string? LinkedInUrl { get; set; }

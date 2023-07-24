@@ -1,12 +1,10 @@
-﻿using Core.Persistence.Repositories;
+﻿using Core.Persistence.Entities.Auditing;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
-    public class Technology : Entity
+    public class Technology : FullAuditedEntity
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public virtual int ProgrammingLanguageId { get; set; }

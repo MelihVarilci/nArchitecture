@@ -1,8 +1,8 @@
-﻿using Core.Persistence.Repositories;
+﻿using Core.Persistence.Entities.Auditing;
 
 namespace Domain.Entities
 {
-    public class ProgrammingLanguage : Entity
+    public class ProgrammingLanguage : FullAuditedEntity
     {
         public string Name { get; set; }
 

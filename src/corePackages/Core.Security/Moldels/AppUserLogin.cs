@@ -1,4 +1,4 @@
-﻿using Core.Persistence.Repositories;
+﻿using Core.Persistence.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace Core.Security.Moldels
