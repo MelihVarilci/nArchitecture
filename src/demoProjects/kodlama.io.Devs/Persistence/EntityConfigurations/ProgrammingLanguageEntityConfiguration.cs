@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistence.EntityConfigurations
 {
-    public class ProgrammingLanguageEntityConfiguration : EntityConfiguration<ProgrammingLanguage>
+    public class ProgrammingLanguageEntityConfiguration : EntityConfiguration<ProgrammingLanguage, int>
     {
         public override void Configure(EntityTypeBuilder<ProgrammingLanguage> builder)
         {

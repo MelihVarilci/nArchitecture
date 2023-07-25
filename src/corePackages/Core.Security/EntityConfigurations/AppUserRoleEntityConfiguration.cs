@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Core.Security.EntityConfigurations
 {
-    public class AppUserRoleEntityConfiguration : EntityConfiguration<AppUserRole>
+    public class AppUserRoleEntityConfiguration : EntityConfiguration<AppUserRole, int>
     {
         public override void Configure(EntityTypeBuilder<AppUserRole> builder)
         {

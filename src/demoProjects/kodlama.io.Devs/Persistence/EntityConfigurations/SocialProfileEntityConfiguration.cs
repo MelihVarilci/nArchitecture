@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistence.EntityConfigurations
 {
-    public class SocialProfileEntityConfiguration : EntityConfiguration<SocialProfile>
+    public class SocialProfileEntityConfiguration : EntityConfiguration<SocialProfile, int>
     {
         public override void Configure(EntityTypeBuilder<SocialProfile> builder)
         {

@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Core.Security.EntityConfigurations
 {
-    public abstract class EntityConfiguration<TEntity> : IEntityTypeConfiguration<TEntity>
-        where TEntity : class, IEntity
+    public abstract class EntityConfiguration<TEntity, TPrimaryKey> : IEntityTypeConfiguration<TEntity>
+        where TEntity : class, IEntity<TPrimaryKey>
     {
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {

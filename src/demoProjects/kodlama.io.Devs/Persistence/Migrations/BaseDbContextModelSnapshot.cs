@@ -381,7 +381,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProgrammingLanguages");
+                    b.ToTable("ProgrammingLanguages", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.SocialProfile", b =>
@@ -436,7 +436,7 @@ namespace Persistence.Migrations
                     b.HasIndex("UserProfileId")
                         .IsUnique();
 
-                    b.ToTable("SocialProfiles");
+                    b.ToTable("SocialProfiles", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Technology", b =>
@@ -479,7 +479,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("ProgrammingLanguageId");
 
-                    b.ToTable("Technologies");
+                    b.ToTable("Technologies", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.UserProfile", b =>

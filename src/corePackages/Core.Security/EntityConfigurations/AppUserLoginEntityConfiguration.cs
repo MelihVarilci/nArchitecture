@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Core.Security.EntityConfigurations
 {
-    public class AppUserLoginEntityConfiguration : EntityConfiguration<AppUserLogin>
+    public class AppUserLoginEntityConfiguration : EntityConfiguration<AppUserLogin, int>
     {
         public override void Configure(EntityTypeBuilder<AppUserLogin> builder)
         {

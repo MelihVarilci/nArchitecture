@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistence.EntityConfigurations
 {
-    public class TechnologyEntityConfiguration : EntityConfiguration<Technology>
+    public class TechnologyEntityConfiguration : EntityConfiguration<Technology, int>
     {
         public override void Configure(EntityTypeBuilder<Technology> builder)
         {

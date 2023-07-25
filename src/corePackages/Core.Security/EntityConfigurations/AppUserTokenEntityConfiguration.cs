@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Core.Security.EntityConfigurations
 {
-    public class AppUserTokenEntityConfiguration : EntityConfiguration<AppUserToken>
+    public class AppUserTokenEntityConfiguration : EntityConfiguration<AppUserToken, int>
     {
         public override void Configure(EntityTypeBuilder<AppUserToken> builder)
         {

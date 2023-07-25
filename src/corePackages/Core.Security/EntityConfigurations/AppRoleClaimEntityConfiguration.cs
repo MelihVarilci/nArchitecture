@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Core.Security.EntityConfigurations
 {
-    public class AppRoleClaimEntityConfiguration : EntityConfiguration<AppRoleClaim>
+    public class AppRoleClaimEntityConfiguration : EntityConfiguration<AppRoleClaim, int>
     {
         public override void Configure(EntityTypeBuilder<AppRoleClaim> builder)
         {
