@@ -53,11 +53,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\demoProjects\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "src\demoProjects\kodlama.io.Devs\Persistence\Persistence.csproj", "{574EBAE6-CF46-4E3C-9ED6-B0862B937CE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "src\demoProjects\kodlama.io.Devs\Application\Application.csproj", "{118EE786-18AB-4F2F-9357-7D1244CFA694}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\demoProjects\kodlama.io.Devs\Application\Application.csproj", "{118EE786-18AB-4F2F-9357-7D1244CFA694}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "src\demoProjects\kodlama.io.Devs\WebAPI\WebAPI.csproj", "{19655515-97C4-48EA-8DEF-C48C1CDAAE91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "src\demoProjects\kodlama.io.Devs\WebAPI\WebAPI.csproj", "{19655515-97C4-48EA-8DEF-C48C1CDAAE91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\demoProjects\kodlama.io.Devs\Infrastructure\Infrastructure.csproj", "{4BEB991D-E7A6-40CA-B701-F1D745A5A7F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\demoProjects\kodlama.io.Devs\Infrastructure\Infrastructure.csproj", "{4BEB991D-E7A6-40CA-B701-F1D745A5A7F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
