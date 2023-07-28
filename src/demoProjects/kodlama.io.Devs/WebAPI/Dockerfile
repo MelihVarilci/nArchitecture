@@ -27,6 +27,4 @@ RUN dotnet publish "WebAPI.csproj" -c Release -o /app/publish /p:UseAppHost=fals
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENV ASPNETCORE_URLS="http://*:4500"
-ENV ASPNETCORE_ENVIRONMENT=Development
 ENTRYPOINT ["dotnet", "WebAPI.dll"]

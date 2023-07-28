@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+  webapi:
+    image: ${DOCKER_REGISTERY}-webapi-image:${version}
+    container_name: webapi-contianer
+    build:
+      context: .
+      dockerfile: src/demoProjects/kodlama.io.Devs/WebAPI/Dockerfile
+
+volumes:
+  sqlserver_volume:
