@@ -59,6 +59,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "src\demoProjects\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\demoProjects\kodlama.io.Devs\Infrastructure\Infrastructure.csproj", "{4BEB991D-E7A6-40CA-B701-F1D745A5A7F3}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{7A4A71F9-51F6-4527-9917-B5902304CC50}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{83E14AED-D254-4F0F-AC45-5387F3196D3E}"
+	ProjectSection(SolutionItems) = preProject
+		.env = .env
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -149,6 +156,10 @@ Global
 		{4BEB991D-E7A6-40CA-B701-F1D745A5A7F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BEB991D-E7A6-40CA-B701-F1D745A5A7F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BEB991D-E7A6-40CA-B701-F1D745A5A7F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A4A71F9-51F6-4527-9917-B5902304CC50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A4A71F9-51F6-4527-9917-B5902304CC50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A4A71F9-51F6-4527-9917-B5902304CC50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A4A71F9-51F6-4527-9917-B5902304CC50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
