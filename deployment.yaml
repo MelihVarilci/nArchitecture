@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: narchitecture-deployment
+  labels:
+    group: example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: narchitecture
+      tier: backend
+    # matchExpressions: 
+    #   - {key: app, operator: NotIn, values: [second-app, first-app]}
+  template:
+    metadata: 
+      labels:
+        app: narchitecture
+        tier: backend
+    spec: 
+      containers:
+        - name: narchitecture-node
+          image: melihvarilci/melihvarilci-webapi-image:1.0
+          imagePullPolicy: Always
+          livenessProbe: 
+            httpGet:
+              path: /
+              port: 80
+            periodSeconds: 10
+            initialDelaySeconds: 5
