@@ -44,7 +44,7 @@ namespace Core.Security.Moldels
 
             // Using Fluent API Methods for Entity Configurations
             // Apply all specified configurations on types that implement IEntityTypeConfiguration in an assembly
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(EntityConfiguration<AppUser, int>).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext<TUser, TRole, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken, TSelf>).Assembly);
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
